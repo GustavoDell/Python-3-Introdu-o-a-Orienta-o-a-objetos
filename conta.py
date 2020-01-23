@@ -7,8 +7,7 @@ class Conta:
         self.__numero = numero
         self.__titular = titular
         self.__saldo = saldo
-        self.__limite = limite
-        
+        self.__limite = limite  
 
     def extrato(self):
         print("Saldo de {} do titular {}".format(self.__saldo, self.__titular))
@@ -16,8 +15,16 @@ class Conta:
     def depositar(self, valor):
         self.__saldo += valor 
     
+    def __pode_sacar(self, valor_a_sacar): # metodo privado
+        valor_disponivel_a_sacar = self.__saldo + self.__limite
+        return valor_a_sacar <= valor_disponivel_a_sacar
+    
     def sacar(self, valor):
-        self.__saldo -= valor
+        if(self.__pode_sacar(valor)):
+            self.__saldo -= valor
+            print("O valor sacado foi de {} e seu saldo é de {}".format(valor, self.__saldo))
+        else:
+            print("O valor {} passou o limite".format(valor))
 
     def transferir(self, valor, destino):
         self.sacar(valor)
@@ -37,5 +44,12 @@ class Conta:
     
     @limite.setter
     def limite(self, limite):
-        self.__limite = limite    
+        self.__limite = limite 
     
+    @staticmethod # Transforma o metodo em um metodo statico(Metodo que é da classe)
+    def codigo_banco():
+        return "001"  
+    
+    @staticmethod
+    def codigo_bancos():
+        return {'BB': '001', 'Caixa': '104', 'Bradesco': '237'}
